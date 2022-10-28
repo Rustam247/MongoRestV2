@@ -1,4 +1,5 @@
 const Movie = require("./movieModel")
+const User = require("../user/userModel")
 
 exports.createMovie = async (req, res) =>{
     try{
@@ -12,8 +13,29 @@ exports.createMovie = async (req, res) =>{
 
 exports.readMovie = async (req, res) =>{
     try{
-        const movies = await Movie.find({})
-        res.status(200).send({movie: movies})
+        const movies = await Movie.find({});
+        const user = await User.find({});
+        if(movies && user) {
+            res.status(200).send({movie: movies, user})  
+        }else{
+            response.status(500).send({ error: "Could not get." });
+        }
+        
+    } catch(error){
+        console.log(error)
+        res.status(500).send({error: error.message})
+    }
+}
+exports.readMovieOne = async (req, res) =>{
+    try{
+        const movies = await Movie.findOne({username: req.params.username});
+        const user = await User.findOne({username: req.params.username});
+        if(movies && user) {
+            res.status(200).send({movie: movies, user})  
+        }else{
+            response.status(500).send({ error: "Could not get." });
+        }
+        
     } catch(error){
         console.log(error)
         res.status(500).send({error: error.message})

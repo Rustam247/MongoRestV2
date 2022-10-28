@@ -8,7 +8,11 @@ const movieSchema = new mongoose.Schema({
     },
     actor: {
         type: String,
-        required: false,
+        default: "Not",
+    },
+    username:{
+        type: String,
+        default: "Not"
     }
 })
 
